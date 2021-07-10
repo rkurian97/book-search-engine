@@ -40,26 +40,27 @@ const resolvers = {
             return { token, user };
         },
         saveBook: async (parent, { bookId, authors, description, title, image, link }, context) => {
-            // const user = await User.findOneAndUpdate(
-            //     { _id: context.user._id },
-            //     {
-            //         $push: {
-            //             savedBooks: {
-            //                 bookId,
-            //                 authors,
-            //                 description,
-            //                 title,
-            //                 image,
-            //                 link
-            //             }
-            //         }
-            //     }, {
-            //     new: true
-            // });
+            console.log(bookId, context.user)
+            const user = await User.findOneAndUpdate(
+                { _id: context.user._id },
+                {
+                    $push: {
+                        savedBooks: {
+                            bookId,
+                            authors,
+                            description,
+                            title,
+                            image,
+                            link
+                        }
+                    }
+                }, {
+                new: true
+            });
             return user
 
         },
-        removeBook: async (parent, { bookId }) => {
+        removeBook: async (parent, { bookId }, context) => {
             const user = await User.findOneAndUpdate({ _id: context.user._id },
                 {
                     $pull: {
